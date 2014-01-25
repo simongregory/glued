@@ -4,7 +4,7 @@ A ruby client to download [HDS][hds] *recorded* fragments and glue them together
 
 The primary aim is to download video on demand content. Encrypted content will download, however it will not playback unless your player accomodates it.  
 
-[HDS][hds] is designed for live video play back that dynamically adapting to network conditions. It uses the HTTP protocol to benefit from existing network infastructre (ie [CDN][cdn]s). It is similar to [MPEG-DASH][mpeg-dash] and [HLS][hls].
+[HDS][hds] is designed for live media that dynamically adapts to network conditions and avoids buffering. It uses the HTTP protocol to benefit from existing network infastructre (ie [CDN][cdn]s). It is similar to [MPEG-DASH][mpeg-dash] and [HLS][hls].
 
 ## References
 
@@ -53,6 +53,11 @@ F4X - Flash Media Index file
 F4V - H.264/AAC based content  
 FLV - Other flash supported codecs  
 
+## License
+
+[MIT][mit], see accomanying [LICENSE](LICENSE) document
+
+
 [ruby]: https://www.ruby-lang.org
 [hds]: http://www.adobe.com/uk/products/hds-dynamic-streaming.html "Adobe HTTP Dynamic Streaming"
 [cdn]: http://en.wikipedia.org/wiki/Content_delivery_network
@@ -64,3 +69,4 @@ FLV - Other flash supported codecs
 [osmf-f4mloader]: http://opensource.adobe.com/svn/opensource/osmf/trunk/framework/OSMF/org/osmf/elements/F4MLoader.as
 [f4m-spec]: doc/adobe-media-manifest-specification.pdf 
 [f4v-spec]: doc/adobe-flash-video-file-format-spec.pdf
+[mit]: http://opensource.org/licenses/MIT
