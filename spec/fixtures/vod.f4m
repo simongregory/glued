@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+  xmlns="http://ns.adobe.com/f4m/1.0">
+  <id>jan2014_p40</id>
+  <startTime>2006-07-24T07:15:00+01:00</startTime>
+  <duration>4080</duration>
+  <mimeType>video/mp4</mimeType>
+  <streamType>recorded</streamType>
+  <deliveryType>streaming</deliveryType>
+  <!-- -audio_eng=128000-video=4947245 -->
+  <bootstrapInfo
+    id="boot1"
+    profile="named">AAAAjWFic3QAAAAAAAACFAAAAAPoAAAAAAA+QYAAAAAAAAAAAEFXAAAAAAABAAAAGWFzcnQAAAAAAAAAAAEAAAABAAACFAEAAABGYWZydAAAAAAAAAPoAAAAAAMAAAABAAAAAAAAAAAAAB4AAAACFAAAAAAAPjoAAAAHgAAAAAAAAAAAAAAAAAAAAAAA</bootstrapInfo>
+  <media
+    url="jan2014_p40-audio_eng%3D128000-video%3D4947245-"
+    bitrate="5075"
+    bootstrapInfoId="boot1"
+    width="1280"
+    height="720">
+    <metadata>AgAKb25NZXRhRGF0YQgAAAAAAA9tZXRhZGF0YWNyZWF0b3ICACVDb2RlU2hvcCdzIFVuaWZpZWQgU3RyZWFtaW5nIFBsYXRmb3JtAAhoYXNBdWRpbwEBAAhoYXNWaWRlbwEBAAhkdXJhdGlvbgBAr+AAAAAAAAAPYXVkaW9zYW1wbGVyYXRlAEDncAAAAAAAAA1hdWRpb2RhdGFyYXRlAEBgAAAAAAAAAAxhdWRpb2NvZGVjaWQCAARtcDRhAAZhYWNhb3QAQAAAAAAAAAAABXdpZHRoAECUAAAAAAAAAAZoZWlnaHQAQIaAAAAAAAAADXZpZGVvZGF0YXJhdGUAQLNTPrhR64UADHZpZGVvY29kZWNpZAIABEFWQzEACmF2Y3Byb2ZpbGUAQFkAAAAAAAAACGF2Y2xldmVsAEBAAAAAAAAAAAAJ</metadata>
+  </media>
+
+
+  <media url="/horses/low" bitrate="408" width="640" height="480"/>
+  <media url="/horses/med" bitrate="908" width="800" height="600"/>
+  <media url="/horses/hi" bitrate="1708" width="1920" height="1080"/>
+
+</manifest>

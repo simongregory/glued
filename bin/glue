@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'glue'
+
+puts %{Ruby HDS Glue #{Glue::VERSION}
+
+Fetch it, glue it, watch it.
+
+}
+
+begin
+  Glue.new(ARGV[0])
+rescue Exception => e
+  abort "Glue failed because: #{e.message}"
+end
