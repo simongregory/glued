@@ -1,0 +1,16 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    curb (0.8.5)
+    mini_portile (0.5.2)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
+    watchr (0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  curb
+  nokogiri
+  watchr
