@@ -19,8 +19,8 @@ class F4VIO < StringIO
   end
 
   def int64
-    hi = int_32
-    lo = int_32
+    hi = int32
+    lo = int32
     (hi * 4294967296) + lo
   end
 
@@ -39,4 +39,9 @@ class F4VIO < StringIO
     str
   end
 
+  def byte_ar
+    ar = []
+    byte.times { ar << byte }
+    ar
+  end
 end
