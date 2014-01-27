@@ -1,0 +1,188 @@
+# encoding: utf-8
+
+class Bootstrap
+  attr_reader :boxes
+
+  def initialize(data)
+    @reader = F4VIO.new(data)
+    @boxes = []
+    scan
+  end
+
+  #Top level
+  AFRA = 'afra' #Fragment random access for HTTP streaming
+  ABST = 'abst' #Bootstrap info for HTTP streaming
+  MOOV = 'moov' #Container for structural metadata
+  MOOF = 'moof' #Movie Fragment
+  MDAT = 'mdat' #Moovie data container
+
+  #Inside ABST
+  ASRT = 'asrt' #Segment run table box
+  AFRT = 'afrt' #Fragment runt table box
+
+  private
+
+  def scan
+    # Scan for 'boxes' in the stream see spec 1.3 F4V box format
+    until (@reader.eof) do
+      box = get_box_info
+
+      case box.type
+      when ABST
+        @boxes << get_bootstrap_box(box)
+      when AFRA
+        @boxes << box.type
+      when MDAT
+        @boxes << box.type
+      else
+        break;
+      end
+    end
+
+    raise "Computer says no" if @boxes.empty?
+
+    @boxes
+  end
+
+  def get_box_info
+    pos = @reader.pos
+    size = @reader.int32
+    type = @reader.fourCC
+    size = @reader.int64 if size == 1 #For boxes over 4GB the size is moved here.
+
+    Header.new(pos, size, type)
+  end
+
+  def get_bootstrap_box(header)
+    # 2.11.2 Bootstrap Info box
+    b                        = BootstrapBox.new
+    b.header                 = header
+    b.version                = @reader.byte
+    b.flags                  = @reader.int24
+    b.bootstrap_info_version = @reader.int32
+
+    plu                      = @reader.byte
+    b.profile                = plu >> 6
+    b.live                   = (plu & 0x20) ? 1 : 0
+    b.update                 = (plu & 0x01) ? 1 : 0
+
+    b.time_scale             = @reader.int32
+    b.current_media_time     = @reader.int64
+    b.smpte_timecode_offset  = @reader.int64
+    b.movie_identifier       = @reader.string
+    b.servers                = @reader.byte_ar
+    b.quality                = @reader.byte_ar
+    b.drm_data               = @reader.string
+    b.metadata               = @reader.string
+    b.segments               = @reader.byte
+    b.segment_run_tables     = []
+    b.segments.times { b.segment_run_tables << get_asrt_box(get_box_info) }
+
+    raise "There should be at least one segment entry" if b.segment_run_tables.empty?
+
+    b.fragments               = @reader.byte
+    b.fragment_run_tables     = []
+    b.fragments.times { b.fragment_run_tables << get_afrt_box(get_box_info) }
+
+    raise "There should be at least one fragment entry" if b.fragment_run_tables.empty?
+
+    b
+  end
+
+  def get_asrt_box(header)
+    # 2.11.2.1 Segment Run Table box
+    raise "Unexpected segment run table box header '#{header.type}' instead of '#{ASRT}'" unless header.type == ASRT
+
+    b = RunTableBox.new
+    b.header                        = header
+    b.version                       = @reader.byte
+    b.flags                         = @reader.int24
+    b.quality_segment_url_modifiers = @reader.byte_ar
+
+    table = []
+    runs = @reader.int32
+
+    runs.times do
+      first_segment = @reader.int32
+      fragments_per_segment = @reader.int32
+
+      table << SegmentRunEntry.new(first_segment, fragments_per_segment)
+    end
+
+    b.run_entry_table = table
+    b
+  end
+
+  def get_afrt_box(header)
+    # 2.11.2.2 Fragment Run Table box
+    raise "Unexpected fragment run table box header '#{header.type}' instead of '#{AFRT}'" unless header.type == AFRT
+
+    b = RunTableBox.new
+    b.header                        = header
+    b.version                       = @reader.byte
+    b.flags                         = @reader.int24
+    b.time_scale                    = @reader.int32
+    b.quality_segment_url_modifiers = @reader.byte_ar
+
+    table = []
+    runs = @reader.int32
+
+    runs.times do
+      f = FragmentRunEntry.new
+      f.first_fragment = @reader.int32
+      f.first_fragment_timestamp = @reader.int64
+      f.fragment_duration = @reader.int32
+      f.discontinuity_indicator = @reader.byte if f.fragment_duration == 0
+
+      table << f
+    end
+
+    b.run_entry_table = table
+    b
+  end
+end
+
+class Header < Struct.new(:pos, :size, :type)
+  #pos, starting position within the byte stream
+  #size, number of bytes within the box
+  #type, descriptive type for the bytes stored in the box
+end
+
+class BootstrapBox < Struct.new(:header,
+                                :version,
+                                :flags,
+                                :bootstrap_info_version,
+                                :profile,
+                                :live,
+                                :update,
+                                :time_scale,
+                                :current_media_time,
+                                :smpte_timecode_offset,
+                                :movie_identifier,
+                                :servers,
+                                :quality,
+                                :drm_data,
+                                :metadata,
+                                :segments,
+                                :segment_run_tables,
+                                :fragments,
+                                :fragment_run_tables)
+end
+
+class SegmentRunEntry < Struct.new(:first_segment, :fragments_per_segment)
+end
+
+class FragmentRunEntry < Struct.new(:first_fragment,
+                                    :first_fragment_timestamp,
+                                    :fragment_duration,
+                                    :discontinuity_indicator)
+end
+
+#For Segment and Fragment boxes
+class RunTableBox < Struct.new(:header,
+                               :version,
+                               :flags,
+                               :time_scale,
+                               :quality_segment_url_modifiers,
+                               :run_entry_table)
+end
