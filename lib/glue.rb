@@ -5,6 +5,7 @@ require 'base64'
 require 'nokogiri'
 
 require 'glue/f4m'
+require 'glue/f4vio'
 
 class Glue
   VERSION = '0.1.0'
