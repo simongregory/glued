@@ -4,5 +4,5 @@ gem "curb"
 gem "nokogiri"
 
 group :development do
-  gem "watchr"
+  gem "observr"
 end
