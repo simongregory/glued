@@ -2,7 +2,7 @@
 
 A ruby client to download [HDS][hds] *recorded* fragments and glue them together. If it's live content you want then you need to start coding.  
 
-The primary aim is to download video on demand content. Encrypted content will download, however it will not playback unless your player accomodates it.  
+The primary aim is to download video on demand content. Encrypted content will download, however it will not playback unless your player accomodates it and a license is available for the media.  
 
 [HDS][hds] is designed for live media that dynamically adapts to network conditions and avoids buffering. It uses the HTTP protocol to benefit from existing network infastructre (ie [CDN][cdn]s). It is similar to [MPEG-DASH][mpeg-dash] and [HLS][hls].
 
