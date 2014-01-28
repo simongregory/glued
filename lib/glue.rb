@@ -12,6 +12,6 @@ class Glue
   VERSION = '0.1.0'
 
   def initialize(url)
-    raise "Invalid manifest url #{url}" unless url.to_s =~ /\.f4m$/ #Only by convention
+    raise "Invalid manifest url #{url} (should end with .f4m)" unless url.to_s =~ /\.f4m$/ #Only by convention
   end
 end
