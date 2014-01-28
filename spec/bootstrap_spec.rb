@@ -2,7 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe "parsing a bootstrap" do
+describe Bootstrap, "parsing a bootstrap" do
 
   def info
     Base64.strict_decode64 'AAAAjWFic3QAAAAAAAACFAAAAAPoAAAAAAA+QYAAAAAAAAAAAEFXAAAAAAABAAAAGWFzcnQAAAAAAAAAAAEAAAABAAACFAEAAABGYWZydAAAAAAAAAPoAAAAAAMAAAABAAAAAAAAAAAAAB4AAAACFAAAAAAAPjoAAAAHgAAAAAAAAAAAAAAAAAAAAAAA'
