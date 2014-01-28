@@ -7,6 +7,7 @@ require 'nokogiri'
 require 'glue/f4m'
 require 'glue/f4vio'
 require 'glue/bootstrap'
+require 'glue/grabber'
 
 class Glue
   VERSION = '0.1.0'
