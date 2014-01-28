@@ -6,6 +6,7 @@ class F4M
   attr_reader :duration,
               :bootstrap_info,
               :base_ref,
+              :media_filename,
               :media
 
   def initialize(url, data)
@@ -26,6 +27,7 @@ class F4M
 
     media_nodes = xml.xpath("/manifest[1]/media")
     @media = find_highest_bitrate(media_nodes)
+    @media_filename = @media.at_css('@url').value
 
     @base_ref = url.split('/').slice(0...-1).join('/') #can be specified in xml
   end
