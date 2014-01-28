@@ -10,6 +10,6 @@ describe "Glue" do
   it "raises errors when the manifest url looks doubtful" do
     expect {
       Glue.new('/steptoe/and/son.f5m')
-    }.to raise_error "Invalid manifest url /steptoe/and/son.f5m (should end with .f4m)"
+    }.to raise_error "Invalid manifest url '/steptoe/and/son.f5m' (it should end with .f4m)"
   end
 end
