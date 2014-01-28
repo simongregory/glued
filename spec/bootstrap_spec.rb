@@ -32,14 +32,25 @@ describe Bootstrap, "parsing a bootstrap" do
     boot = Bootstrap.new(info)
     box = boot.boxes.first
 
-    box.segments.should eq(1)
-
     srt = box.segment_run_tables.first
     sre = srt.run_entry_table.first
 
     sre.first_segment.should eq(1)
     sre.fragments_per_segment.should eq(532)
   end
+
+  it "determines the number of segments" do
+    boot = Bootstrap.new(info)
+
+    boot.segments.should eq(1)
+  end
+
+  it "determines the number of fragments" do
+    boot = Bootstrap.new(info)
+
+    boot.fragments.should eq(532)
+  end
+
 
   it "decodes fragment run table (afra) boxes" do
     boot = Bootstrap.new(info)

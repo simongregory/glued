@@ -20,6 +20,14 @@ class Bootstrap
   ASRT = 'asrt' #Segment run table box
   AFRT = 'afrt' #Fragment runt table box
 
+  def segments
+    @boxes.first.segments
+  end
+
+  def fragments
+    @boxes.first.segment_run_tables.first.run_entry_table.first.fragments_per_segment
+  end
+
   private
 
   def scan
