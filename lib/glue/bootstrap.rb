@@ -32,16 +32,16 @@ class Bootstrap
 
   def scan
     # Scan for 'boxes' in the stream see spec 1.3 F4V box format
-    until (@reader.eof) do
+    until (@reader.eof?) do
       box = get_box_info
 
       case box.type
       when ABST
         @boxes << get_bootstrap_box(box)
       when AFRA
-        @boxes << box.type
+        @boxes << box
       when MDAT
-        @boxes << box.type
+        @boxes << box
       else
         break;
       end
