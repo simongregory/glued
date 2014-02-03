@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 
-$:.push File.join(File.dirname(__FILE__), "..", "lib")
-$:.push File.dirname(__FILE__)
+require 'glued'
 
-require 'glue'
-
-puts %{Ruby HDS Glue #{Glue::VERSION}
+puts %{Ruby HDS Glue #{Glued::VERSION}
 
 Fetch it, glue it, watch it.
 
