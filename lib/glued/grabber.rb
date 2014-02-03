@@ -66,6 +66,8 @@ class Grabber
         @out.write(reader.read(box.content_size))
       end
     end
+
+    @fragments_downloaded += 1
   end
 
   def fetch_and_report(url)
@@ -73,7 +75,7 @@ class Grabber
 
     dl = Curl::Easy.perform(url)
 
-    dl_speed(dl.body.length, Time.now-start_time)
+    report(dl.body.length, Time.now-start_time)
 
     dl
   end
