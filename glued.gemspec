@@ -11,7 +11,7 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Downloads and joins HTTP Dynamic Stream fragments into a single media file'
   s.license = 'MIT'
   s.files = Dir['**/*']
-  s.files.reject! { |fn| fn.match /\.(DS_Store|svn|git|tmproj|gem)|tmp/ }
+  s.files.reject! { |fn| fn.match /\.(DS_Store|svn|git|tmproj|gem|flv|php)|tmp|doc|segs|NOTES|scratch/ }
   s.require_paths << 'lib'
   s.bindir = 'bin'
   s.executables << 'glued'
