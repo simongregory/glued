@@ -20,6 +20,6 @@ class Glue
     bootstrap = Bootstrap.new(manifest.bootstrap_info)
     grabber = Grabber.new(manifest, bootstrap)
 
-    puts "Complete"
+    puts "\rComplete                                                                "
   end
 end
