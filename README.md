@@ -34,9 +34,16 @@ The primary aim is to download video on demand content. Encrypted content will d
 
 ### Questions / Answers / Guesses
 
-A 'box' is a convention within a stream of bytes. Each box starts with a header, which describes length and type, followed by the data in the box.
+A *box* is a convention within a stream of bytes. Each box starts with a header, which describes length and type, followed by the data in the box.
 
-Definition of segments ?
+### Abbreviations
+
+HDS - HTTP Dynamic Streaming  
+F4M - Flash Media Manfiest  
+F4F - Flash Media File fragment  
+F4X - Flash Media Index file  
+F4V - H.264/AAC based content  
+FLV - Other flash supported codecs  
 
 ## How it works
 
@@ -50,15 +57,6 @@ Download each fragment
     - Fragment fails? go 💥  
 Glue it to the previous fragment  
 Repeat till done  
-
-## Abbreviations
-
-HDS - HTTP Dynamic Streaming  
-F4M - Flash Media Manfiest  
-F4F - Flash Media File fragment  
-F4X - Flash Media Index file  
-F4V - H.264/AAC based content  
-FLV - Other flash supported codecs  
 
 ## License
 
