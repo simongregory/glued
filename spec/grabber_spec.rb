@@ -7,20 +7,22 @@ describe "grabbing fragments" do
   before(:each) do
     @bs = double(Bootstrap)
     @f4m = double(F4M)
+    @io = StringIO.new
   end
 
   after(:each) do
     @bs = nil
     @f4m = nil
+    @io = nil
   end
 
-  it "builds a nice long list of url fragments" do
+  it "builds a list of url fragments" do
     @f4m.stub(:base_ref).and_return('http://the.young.ones')
     @f4m.stub(:media_filename).and_return('some-audio-video-')
     @bs.stub(:segments).and_return(1)
     @bs.stub(:fragments).and_return(20)
 
-    grabber = Grabber.new(@f4m, @bs)
+    grabber = Grabber.new(@f4m, @bs, @io)
 
     expect(grabber.urls.first).to eq('http://the.young.ones/some-audio-video-Seg1-Frag1')
     expect(grabber.urls.last).to eq('http://the.young.ones/some-audio-video-Seg1-Frag20')
@@ -36,6 +38,6 @@ describe "grabbing fragments" do
     expect { Grabber.new(@f4m, @bs) }.to raise_error "Not enough fragments"
   end
 
-  it "downloads the nice long list of fragments" do
+  it "downloads the list of fragments" do
   end
 end

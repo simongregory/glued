@@ -3,7 +3,7 @@
 class Grabber
   attr_reader :urls
 
-  def initialize(manifest, bootstrap)
+  def initialize(manifest, bootstrap, io=nil)
     raise "Only one segment can be handled" if bootstrap.segments != 1 #As we've hardcoded 1 below
     raise "Not enough fragments" if bootstrap.fragments < 1
     raise "Too many fragments" if bootstrap.fragments > 10000 #not sure what this limit should be
@@ -18,7 +18,7 @@ class Grabber
     #TODO: Track how much has already been downloaded and append from that point
     raise "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
 
-    @out = File.new(@uri, 'ab')
+    @out = io ||= File.new(@uri, 'ab')
     @out.write(flv_header(1,1))
 
     build
@@ -45,7 +45,7 @@ class Grabber
       fragment += 1
     end
 
-    @urls[0..4].each { |url| download url }
+    @urls.each { |url| download url }
   end
 
   def download url
