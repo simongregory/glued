@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/simongregory/glued.png?branch=master)](https://travis-ci.org/simongregory/glued)
 [![Code Climate](https://codeclimate.com/github/simongregory/glued.png)](https://codeclimate.com/github/simongregory/glued)
+[![Dependency Status](https://gemnasium.com/simongregory/glued.png)](https://gemnasium.com/simongregory/glued)
 
 A Ruby client to download [HDS][hds] *recorded* fragments and glue them together. If it's live content you want then you need to start coding.  
 
