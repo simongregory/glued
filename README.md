@@ -1,12 +1,12 @@
 # Glued
 
-[![Build Status](https://travis-ci.org/simongregory/glued.png?branch=master)](https://travis-ci.org/simongregory/glued)
-[![Code Climate](https://codeclimate.com/github/simongregory/glued.png)](https://codeclimate.com/github/simongregory/glued)
-[![Dependency Status](https://gemnasium.com/simongregory/glued.png)](https://gemnasium.com/simongregory/glued)
+[![Build Status][travis-badge]][travis]
+[![Code Climate][codeclimate-badge]][codeclimate]
+[![Dependency Status][gemnasium-badge]][gemnasium]
 
 A Ruby client to download [HDS][hds] *recorded* fragments and glue them together. If it's live content you want then you need to start coding.  
 
-The primary aim is to download video on demand content. Encrypted content will download, however it will not playback unless your player accomodates it and a license is available for the media.  
+The primary aim is to download video on demand content. Encrypted [DRM][] content will download, however it will not playback unless your player accomodates it and a license is available for the media.  
 
 [HDS][hds] is designed for live media that dynamically adapts to network conditions and avoids buffering. It uses the HTTP protocol to benefit from existing network infastructre (ie [CDN][cdn]s). It is similar to [MPEG-DASH][mpeg-dash] and [HLS][hls].
 
@@ -28,7 +28,6 @@ The primary aim is to download video on demand content. Encrypted content will d
 
 * [Getting started with HDS](http://www.thekuroko.com/http-dynamic-streaming-getting-started/)
 * [Fragmented MP4](http://technology-pedia.blogspot.co.uk/2012/09/fragmented-mp4-format-fmp4-f4f-adobe.html)
-
 * [flvtool2](https://github.com/unnu/flvtool2)
 * [get-flash-videos](https://github.com/monsieurvideo/get-flash-videos)
 * [rtmp-dump](http://rtmpdump.mplayerhq.hu)
@@ -76,3 +75,11 @@ Repeat till done
 [f4m-spec]: doc/adobe-media-manifest-specification.pdf 
 [f4v-spec]: doc/adobe-flash-video-file-format-spec.pdf
 [MIT]: http://opensource.org/licenses/MIT
+[DRM]: http://en.wikipedia.org/wiki/Digital_rights_management
+
+[gemnasium-badge]: https://gemnasium.com/simongregory/glued.png
+[gemnasium]: https://gemnasium.com/simongregory/glued
+[codeclimate-badge]: https://codeclimate.com/github/simongregory/glued.png
+[codeclimate]: https://codeclimate.com/github/simongregory/glued
+[travis-badge]: https://travis-ci.org/simongregory/glued.png?branch=master
+[travis]: https://travis-ci.org/simongregory/glued
