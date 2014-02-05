@@ -19,23 +19,13 @@ class Grabber
     raise "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
 
     @out = io ||= File.new(@uri, 'ab')
-    @out.write(flv_header(1,1))
+    #TODO: Inspect first fragment, test for audio and video, write header accordingly
+    @out.write(FLV.header)
 
     build
   end
 
   private
-
-  #TODO: Inspect first fragment, test for audio and video, write header accordingly
-  def flv_header(audio, video)
-    #Audio and video need to be a 1 or 0
-    flv_header = ["464c5601050000000900000000"].pack("H*")
-
-    result = audio << 2 | video
-    flv_header[4] = [result].pack('C')
-
-    flv_header
-  end
 
   def build
     #TODO, correctly set the fragment start
