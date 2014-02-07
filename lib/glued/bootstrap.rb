@@ -55,7 +55,7 @@ class Bootstrap
   def make_box_header
     pos = @reader.pos
     size = @reader.int32
-    type = @reader.fourCC
+    type = @reader.four_cc
 
     # For boxes over 4GB the size is moved after the type
     size = @reader.int64 if size == 1

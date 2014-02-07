@@ -26,7 +26,7 @@ class F4F
   def next_box
     pos = @reader.pos
     size = @reader.int32
-    type = @reader.fourCC
+    type = @reader.four_cc
     size = @reader.int64 if size == 1 # For boxes over 4GB the size is moved here.
 
     header_size = @reader.pos - pos

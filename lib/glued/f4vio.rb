@@ -23,7 +23,7 @@ class F4VIO < StringIO
     (hi * 4_294_967_296) + lo
   end
 
-  def fourCC
+  def four_cc
     read(4).unpack('A4').first
   end
 

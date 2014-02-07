@@ -11,9 +11,9 @@ class Grabber
 
   def initialize(manifest, bootstrap, io = nil, do_download = true)
     # As we've hardcoded 1 into the @url below
-    raise Unstuck, 'Only one segment can be handled' if bootstrap.segments != 1
-    raise Unstuck, 'Not enough fragments' if bootstrap.fragments < SANE_FRAGMENT_MIN
-    raise Unstuck, 'Too many fragments' if bootstrap.fragments > SANE_FRAGMENT_MAX
+    fail Unstuck, 'Only one segment can be handled' if bootstrap.segments != 1
+    fail Unstuck, 'Not enough fragments' if bootstrap.fragments < SANE_FRAGMENT_MIN
+    fail Unstuck, 'Too many fragments' if bootstrap.fragments > SANE_FRAGMENT_MAX
 
     @uri = "#{manifest.media_filename}.flv"
     @url = "#{manifest.base_ref}/#{manifest.media_filename}Seg1-Frag"
@@ -23,7 +23,7 @@ class Grabber
     @fragments_downloaded = 0
 
     # TODO: Track how much has already been downloaded and append from that point
-    raise Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
+    fail Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
 
     @out = io
     @out = File.new(@uri, 'ab') if @out.nil?
@@ -55,14 +55,14 @@ class Grabber
 
     dl = fetch_and_report(url)
 
-    raise "Invalid content type '#{dl.content_type}' for fragment #{file_name}." unless dl.content_type == 'video/f4f'
+    fail "Invalid content type '#{dl.content_type}' for fragment #{file_name}." unless dl.content_type == 'video/f4f'
 
     reader = F4VIO.new(dl.body)
     f4f = F4F.new(reader)
 
     debug_stuff(dl.body)
 
-    raise 'Fragment did not verify' unless f4f.ok?
+    fail 'Fragment did not verify' unless f4f.ok?
 
     f4f.boxes.each do |box|
       if box.type == 'mdat'
