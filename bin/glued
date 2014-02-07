@@ -10,6 +10,6 @@ Fetch it, glue it, watch it.
 
 begin
   Glue.new(ARGV[0])
-rescue Exception => e
+rescue Unstuck => e
   abort "Glue failed because: #{e.message}"
 end

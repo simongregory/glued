@@ -7,7 +7,7 @@ class Glue
     xml = Curl::Easy.perform(url).body
     manifest = F4M.new(url, xml)
     bootstrap = Bootstrap.new(manifest.bootstrap_info)
-    grabber = Grabber.new(manifest, bootstrap)
+    Grabber.new(manifest, bootstrap)
 
     puts "\rComplete                                                                "
   end

@@ -1,12 +1,19 @@
 # encoding: utf-8
 
+class Unstuck < Exception
+end
+
 class Grabber
   attr_reader :urls
 
+  SANE_FRAGMENT_MAX = 10_000
+  SANE_FRAGMENT_MIN = 1
+
   def initialize(manifest, bootstrap, io=nil)
-    raise "Only one segment can be handled" if bootstrap.segments != 1 #As we've hardcoded 1 below
-    raise "Not enough fragments" if bootstrap.fragments < 1
-    raise "Too many fragments" if bootstrap.fragments > 10000 #not sure what this limit should be
+    # As we've hardcoded 1 into the @url below
+    raise Unstuck, "Only one segment can be handled" if bootstrap.segments != 1
+    raise Unstuck, "Not enough fragments" if bootstrap.fragments < SANE_FRAGMENT_MIN
+    raise Unstuck, "Too many fragments" if bootstrap.fragments > SANE_FRAGMENT_MAX
 
     @uri = "#{manifest.media_filename}.flv"
     @url = "#{manifest.base_ref}/#{manifest.media_filename}Seg1-Frag"
@@ -16,10 +23,12 @@ class Grabber
     @fragments_downloaded = 0
 
     #TODO: Track how much has already been downloaded and append from that point
-    raise "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
+    raise Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
 
-    @out = io ||= File.new(@uri, 'ab')
-    #TODO: Inspect first fragment, test for audio and video, write header accordingly
+    @out = io
+    @out = File.new(@uri, 'ab') if @out.nil
+
+    #TODO: Test first fragment for audio and video write header accordingly
     @out.write(FLV.header)
 
     build
@@ -48,6 +57,8 @@ class Grabber
     reader = F4VIO.new(dl.body)
     f4f = F4F.new(reader)
 
+    debug_stuff(dl.body)
+
     raise "Fragment did not verify" unless f4f.ok?
 
     f4f.boxes.each do |box|
@@ -72,7 +83,6 @@ class Grabber
 
   def report(number_of_bytes, in_seconds)
     bps = (number_of_bytes*8) / in_seconds
-    kbps = bps/1000
     mbps = bps/1000000
 
     print "\rDownloading #{@fragments_downloaded+1}/#{@total_fragments} at #{mbps.round(2)} Mbps"

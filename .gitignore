@@ -2,3 +2,4 @@ NOTES
 *.flv
 *Seg*Frag*
 *scratch*
+.rubocop.yml

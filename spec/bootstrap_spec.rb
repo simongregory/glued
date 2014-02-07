@@ -72,7 +72,7 @@ describe Bootstrap, "parsing a bootstrap" do
     bad_info = Base64.strict_decode64 "AAAAjWFic3QAAAAAAAACFAAAAAPoAAAAAAA+QYAAAAAAAAAAAEFXAAAAAAABAAAAGWFzcnQAAAAAAAAAAAEAAAABAAACFAEAAABGYWZ6dAAAAAAAAAPoAAAAAAMAAAABAAAAAAAAAAAAAB4AAAACFAAAAAAAPjoAAAAHgAAAAAAAAAAAAAAAAAAAAAAA"
 
     expect {
-      boot = Bootstrap.new(bad_info)
+      Bootstrap.new(bad_info)
     }.to raise_error "Unexpected fragment run table box header 'afzt' instead of 'afrt'"
   end
 
@@ -83,7 +83,7 @@ describe Bootstrap, "parsing a bootstrap" do
     bad_info = Base64.strict_decode64 'AAAAjWFic3QAAAAAAAACFAAAAAPoAAAAAAA+QYAAAAAAAAAAAEFXAAAAAAABAAAAGWFzcHQAAAAAAAAAAAEAAAABAAACFAEAAABGYWZydAAAAAAAAAPoAAAAAAMAAAABAAAAAAAAAAAAAB4AAAACFAAAAAAAPjoAAAAHgAAAAAAAAAAAAAAAAAAAAAAA'
 
     expect {
-      boot = Bootstrap.new(bad_info)
+      Bootstrap.new(bad_info)
     }.to raise_error "Unexpected segment run table box header 'aspt' instead of 'asrt'"
   end
 end
