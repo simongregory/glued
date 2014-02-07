@@ -1,9 +1,8 @@
 # encoding: utf-8
 
 class Glue
-
   def initialize(url)
-    raise "Invalid manifest url '#{url}' (it should end with .f4m)" unless url.to_s =~ /\.f4m$/ #Only by convention
+    fail "Invalid manifest url '#{url}' (it should end with .f4m)" unless url.to_s =~ /\.f4m$/ # Only by convention
 
     xml = Curl::Easy.perform(url).body
     manifest = F4M.new(url, xml)
@@ -12,5 +11,4 @@ class Glue
 
     puts "\rComplete                                                                "
   end
-
 end

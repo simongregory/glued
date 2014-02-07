@@ -9,16 +9,16 @@ class Bootstrap
     scan
   end
 
-  #Top level
-  AFRA = 'afra' #Fragment random access for HTTP streaming
-  ABST = 'abst' #Bootstrap info for HTTP streaming
-  MOOV = 'moov' #Container for structural metadata
-  MOOF = 'moof' #Movie Fragment
-  MDAT = 'mdat' #Moovie data container
+  # Top level
+  AFRA = 'afra' # Fragment random access for HTTP streaming
+  ABST = 'abst' # Bootstrap info for HTTP streaming
+  MOOV = 'moov' # Container for structural metadata
+  MOOF = 'moof' # Movie Fragment
+  MDAT = 'mdat' # Moovie data container
 
-  #Inside ABST
-  ASRT = 'asrt' #Segment run table box
-  AFRT = 'afrt' #Fragment runt table box
+  # Inside ABST
+  ASRT = 'asrt' # Segment run table box
+  AFRT = 'afrt' # Fragment runt table box
 
   def segments
     @boxes.first.segments
@@ -32,7 +32,7 @@ class Bootstrap
 
   def scan
     # Scan for 'boxes' in the stream see spec 1.3 F4V box format
-    until (@reader.eof?) do
+    until @reader.eof?
       box = get_box_info
 
       case box.type
@@ -47,7 +47,7 @@ class Bootstrap
       end
     end
 
-    raise "Computer says no" if @boxes.empty?
+    fail 'Computer says no' if @boxes.empty?
 
     @boxes
   end
@@ -56,7 +56,7 @@ class Bootstrap
     pos = @reader.pos
     size = @reader.int32
     type = @reader.fourCC
-    size = @reader.int64 if size == 1 #For boxes over 4GB the size is moved here.
+    size = @reader.int64 if size == 1 # For boxes over 4GB the size is moved here.
 
     Header.new(pos, size, type)
   end
@@ -86,20 +86,20 @@ class Bootstrap
     b.segment_run_tables     = []
     b.segments.times { b.segment_run_tables << get_asrt_box(get_box_info) }
 
-    raise "There should be at least one segment entry" if b.segment_run_tables.empty?
+    fail 'There should be at least one segment entry' if b.segment_run_tables.empty?
 
     b.fragments               = @reader.byte
     b.fragment_run_tables     = []
     b.fragments.times { b.fragment_run_tables << get_afrt_box(get_box_info) }
 
-    raise "There should be at least one fragment entry" if b.fragment_run_tables.empty?
+    fail 'There should be at least one fragment entry' if b.fragment_run_tables.empty?
 
     b
   end
 
   def get_asrt_box(header)
     # 2.11.2.1 Segment Run Table box
-    raise "Unexpected segment run table box header '#{header.type}' instead of '#{ASRT}'" unless header.type == ASRT
+    fail "Unexpected segment run table box header '#{header.type}' instead of '#{ASRT}'" unless header.type == ASRT
 
     b = RunTableBox.new
     b.header                        = header
@@ -123,7 +123,7 @@ class Bootstrap
 
   def get_afrt_box(header)
     # 2.11.2.2 Fragment Run Table box
-    raise "Unexpected fragment run table box header '#{header.type}' instead of '#{AFRT}'" unless header.type == AFRT
+    fail "Unexpected fragment run table box header '#{header.type}' instead of '#{AFRT}'" unless header.type == AFRT
 
     b = RunTableBox.new
     b.header                        = header
@@ -151,9 +151,9 @@ class Bootstrap
 end
 
 class Header < Struct.new(:pos, :size, :type)
-  #pos, starting position within the byte stream
-  #size, number of bytes within the box
-  #type, descriptive type for the bytes stored in the box
+  # pos, starting position within the byte stream
+  # size, number of bytes within the box
+  # type, descriptive type for the bytes stored in the box
 end
 
 class BootstrapBox < Struct.new(:header,
@@ -186,7 +186,7 @@ class FragmentRunEntry < Struct.new(:first_fragment,
                                     :discontinuity_indicator)
 end
 
-#For Segment and Fragment boxes
+# For Segment and Fragment boxes
 class RunTableBox < Struct.new(:header,
                                :version,
                                :flags,

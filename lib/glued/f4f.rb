@@ -8,7 +8,7 @@ class F4F
     @boxes = []
 
     # Scan for boxes in the stream see spec 1.3 F4V box format
-    until (@reader.pos >= @reader.size) do
+    until @reader.pos >= @reader.size
       box = next_box
       @boxes << box
       @reader.pos = box.pos + box.size
@@ -27,18 +27,17 @@ class F4F
     pos = @reader.pos
     size = @reader.int32
     type = @reader.fourCC
-    size = @reader.int64 if size == 1 #For boxes over 4GB the size is moved here.
+    size = @reader.int64 if size == 1 # For boxes over 4GB the size is moved here.
 
-    header_size = @reader.pos-pos
+    header_size = @reader.pos - pos
     content_size = size - header_size
 
     F4FHeader.new(pos, size, type, @reader.pos, content_size)
   end
-
 end
 
 class F4FHeader < Struct.new(:pos, :size, :type, :content_start, :content_size)
-  #pos, starting position within the byte stream
-  #size, number of bytes within the box
-  #type, descriptive type for the bytes stored in the box
+  # pos, starting position within the byte stream
+  # size, number of bytes within the box
+  # type, descriptive type for the bytes stored in the box
 end
