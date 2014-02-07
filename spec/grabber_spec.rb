@@ -2,7 +2,7 @@
 
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe "grabbing fragments" do
+describe 'grabbing fragments' do
 
   before(:each) do
     @bs = double(Bootstrap)
@@ -16,7 +16,7 @@ describe "grabbing fragments" do
     @io = nil
   end
 
-  it "builds a list of url fragments" do
+  it 'builds a list of url fragments' do
     @f4m.stub(:base_ref).and_return('http://the.young.ones')
     @f4m.stub(:media_filename).and_return('some-audio-video-')
     @bs.stub(:segments).and_return(1)
@@ -28,16 +28,16 @@ describe "grabbing fragments" do
     expect(grabber.urls.last).to eq('http://the.young.ones/some-audio-video-Seg1-Frag20')
   end
 
-  it "fails without the correct number of segments" do
+  it 'fails without the correct number of segments' do
     @bs.stub(:segments).and_return(0)
-    expect { Grabber.new(@f4m, @bs) }.to raise_error "Only one segment can be handled"
+    expect { Grabber.new(@f4m, @bs) }.to raise_error 'Only one segment can be handled'
 
     @bs.stub(:segments).and_return(1)
     @bs.stub(:fragments).and_return(0)
 
-    expect { Grabber.new(@f4m, @bs) }.to raise_error "Not enough fragments"
+    expect { Grabber.new(@f4m, @bs) }.to raise_error 'Not enough fragments'
   end
 
-  it "downloads the list of fragments" do
+  it 'downloads the list of fragments' do
   end
 end

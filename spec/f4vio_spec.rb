@@ -2,16 +2,16 @@
 
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe F4VIO, "Flash video binary decoding (big endian)" do
+describe F4VIO, 'Flash video binary decoding (big endian)' do
 
-  it "reads sequences of Unicode 8-bit characters (UTF-8), terminated with 0x00 (unless otherwise specified)" do
+  it 'reads sequences of Unicode 8-bit characters (UTF-8), terminated with 0x00 (unless otherwise specified)' do
     scanner = F4VIO.new "abc\x00xyz\x00"
 
     scanner.string.should eq('abc')
     scanner.string.should eq('xyz')
   end
 
-  it "reads bytes" do
+  it 'reads bytes' do
     scanner = F4VIO.new 'hello'
 
     scanner.byte.should eq(104)
@@ -21,19 +21,19 @@ describe F4VIO, "Flash video binary decoding (big endian)" do
     scanner.byte.should eq(111)
   end
 
-  it "reads 16 bit integers" do
+  it 'reads 16 bit integers' do
     # eg = {}
   end
 
-  it "reads 24 bit integers" do
+  it 'reads 24 bit integers' do
     # eg = {}
   end
 
-  it "reads 32 bit integers" do
+  it 'reads 32 bit integers' do
     # eg = {}
   end
 
-  it "reads 64 bit integers" do
+  it 'reads 64 bit integers' do
     # eg = {}
   end
 

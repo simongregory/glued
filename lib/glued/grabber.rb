@@ -9,11 +9,11 @@ class Grabber
   SANE_FRAGMENT_MAX = 10_000
   SANE_FRAGMENT_MIN = 1
 
-  def initialize(manifest, bootstrap, io=nil, do_download=true)
+  def initialize(manifest, bootstrap, io = nil, do_download = true)
     # As we've hardcoded 1 into the @url below
-    raise Unstuck, "Only one segment can be handled" if bootstrap.segments != 1
-    raise Unstuck, "Not enough fragments" if bootstrap.fragments < SANE_FRAGMENT_MIN
-    raise Unstuck, "Too many fragments" if bootstrap.fragments > SANE_FRAGMENT_MAX
+    raise Unstuck, 'Only one segment can be handled' if bootstrap.segments != 1
+    raise Unstuck, 'Not enough fragments' if bootstrap.fragments < SANE_FRAGMENT_MIN
+    raise Unstuck, 'Too many fragments' if bootstrap.fragments > SANE_FRAGMENT_MAX
 
     @uri = "#{manifest.media_filename}.flv"
     @url = "#{manifest.base_ref}/#{manifest.media_filename}Seg1-Frag"
@@ -22,13 +22,13 @@ class Grabber
     @downloaded_fragments = []
     @fragments_downloaded = 0
 
-    #TODO: Track how much has already been downloaded and append from that point
+    # TODO: Track how much has already been downloaded and append from that point
     raise Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
 
     @out = io
     @out = File.new(@uri, 'ab') if @out.nil?
 
-    #TODO: Test first fragment for audio and video write header accordingly
+    # TODO: Test first fragment for audio and video write header accordingly
     @out.write(FLV.header)
 
     build
@@ -38,7 +38,7 @@ class Grabber
   private
 
   def build
-    #TODO, correctly set the fragment start
+    # TODO, correctly set the fragment start
     fragment = 1
     while fragment <= @total_fragments
       @urls << "#{@url}#{fragment}"
@@ -50,7 +50,7 @@ class Grabber
     @urls.each { |url| download url }
   end
 
-  def download url
+  def download(url)
     file_name = url.split('/').pop
 
     dl = fetch_and_report(url)
@@ -62,7 +62,7 @@ class Grabber
 
     debug_stuff(dl.body)
 
-    raise "Fragment did not verify" unless f4f.ok?
+    raise 'Fragment did not verify' unless f4f.ok?
 
     f4f.boxes.each do |box|
       if box.type == 'mdat'
@@ -79,16 +79,15 @@ class Grabber
 
     dl = Curl::Easy.perform(url)
 
-    report(dl.body.length, Time.now-start_time)
+    report(dl.body.length, Time.now - start_time)
 
     dl
   end
 
   def report(number_of_bytes, in_seconds)
-    bps = (number_of_bytes*8) / in_seconds
-    mbps = bps/1000000
+    bps = (number_of_bytes * 8) / in_seconds
+    mbps = bps / 1_000_000
 
-    print "\rDownloading #{@fragments_downloaded+1}/#{@total_fragments} at #{mbps.round(2)} Mbps"
+    print "\rDownloading #{@fragments_downloaded + 1}/#{@total_fragments} at #{mbps.round(2)} Mbps"
   end
 end
-
