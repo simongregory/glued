@@ -33,11 +33,11 @@ class Bootstrap
   def scan
     # Scan for 'boxes' in the stream see spec 1.3 F4V box format
     until @reader.eof?
-      box = get_box_info
+      box = make_box_header
 
       case box.type
       when ABST
-        @boxes << get_bootstrap_box(box)
+        @boxes << make_bootstrap_box(box)
       when AFRA
         @boxes << box
       when MDAT
@@ -52,16 +52,18 @@ class Bootstrap
     @boxes
   end
 
-  def get_box_info
+  def make_box_header
     pos = @reader.pos
     size = @reader.int32
     type = @reader.fourCC
-    size = @reader.int64 if size == 1 # For boxes over 4GB the size is moved here.
+
+    # For boxes over 4GB the size is moved after the type
+    size = @reader.int64 if size == 1
 
     Header.new(pos, size, type)
   end
 
-  def get_bootstrap_box(header)
+  def make_bootstrap_box(header)
     # 2.11.2 Bootstrap Info box
     b                        = BootstrapBox.new
     b.header                 = header
@@ -84,20 +86,20 @@ class Bootstrap
     b.metadata               = @reader.string
     b.segments               = @reader.byte
     b.segment_run_tables     = []
-    b.segments.times { b.segment_run_tables << get_asrt_box(get_box_info) }
+    b.segments.times { b.segment_run_tables << make_asrt_box(get_box_info) }
 
     fail 'There should be at least one segment entry' if b.segment_run_tables.empty?
 
     b.fragments               = @reader.byte
     b.fragment_run_tables     = []
-    b.fragments.times { b.fragment_run_tables << get_afrt_box(get_box_info) }
+    b.fragments.times { b.fragment_run_tables << make_afrt_box(get_box_info) }
 
     fail 'There should be at least one fragment entry' if b.fragment_run_tables.empty?
 
     b
   end
 
-  def get_asrt_box(header)
+  def make_asrt_box(header)
     # 2.11.2.1 Segment Run Table box
     fail "Unexpected segment run table box header '#{header.type}' instead of '#{ASRT}'" unless header.type == ASRT
 
@@ -121,7 +123,7 @@ class Bootstrap
     b
   end
 
-  def get_afrt_box(header)
+  def make_afrt_box(header)
     # 2.11.2.2 Fragment Run Table box
     fail "Unexpected fragment run table box header '#{header.type}' instead of '#{AFRT}'" unless header.type == AFRT
 
