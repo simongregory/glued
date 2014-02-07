@@ -43,7 +43,7 @@ class Bootstrap
       when MDAT
         @boxes << box
       else
-        break;
+        break
       end
     end
 
@@ -86,13 +86,13 @@ class Bootstrap
     b.metadata               = @reader.string
     b.segments               = @reader.byte
     b.segment_run_tables     = []
-    b.segments.times { b.segment_run_tables << make_asrt_box(get_box_info) }
+    b.segments.times { b.segment_run_tables << make_asrt_box(make_box_header) }
 
     fail 'There should be at least one segment entry' if b.segment_run_tables.empty?
 
     b.fragments               = @reader.byte
     b.fragment_run_tables     = []
-    b.fragments.times { b.fragment_run_tables << make_afrt_box(get_box_info) }
+    b.fragments.times { b.fragment_run_tables << make_afrt_box(make_box_header) }
 
     fail 'There should be at least one fragment entry' if b.fragment_run_tables.empty?
 
