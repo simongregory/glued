@@ -3,7 +3,6 @@
 describe F4M, "Loading manifests" do
 
   describe "a recorded manifest" do
-
     before(:each) do
       @manifest = F4M.new('http://cloud.org/only/fools/vod.f4m',
                           IO.read('spec/fixtures/vod.f4m'))
@@ -28,31 +27,30 @@ describe F4M, "Loading manifests" do
     it "defines the media filename" do
       @manifest.media_filename.should eq('some-audio-video-')
     end
-
   end
 
   describe "loading a live manifest" do
     it "raises errors if a live manifest is used" do
-      expect {
-          F4M.new('http://cloud.org/and/horses/live.f4m',
-          IO.read('spec/fixtures/live.f4m'))
-      }.to raise_error "Only recorded streams are supported."
+      url = 'http://cloud.org/and/horses/live.f4m'
+      data = IO.read('spec/fixtures/live.f4m')
+
+      expect { F4M.new(url, data) }.to raise_error "Only recorded streams are supported."
     end
   end
 
   describe "loading manifests with unrecognised namespaces" do
     it "raises errors with no namespaces" do
-      expect {
-          F4M.new('http://only.fools/and/horses/live.f4m',
-          IO.read('spec/fixtures/no_namespace.f4m'))
-      }.to raise_error "Invalid manifest namespace. It was not found but should have been http://ns.adobe.com/f4m/1.0"
+      url = 'http://only.fools/and/horses/live.f4m'
+      data = IO.read('spec/fixtures/no_namespace.f4m')
+
+      expect { F4M.new(url, data) }.to raise_error "Invalid manifest namespace. It was not found but should have been http://ns.adobe.com/f4m/1.0"
     end
 
     it "raises errors for incompatible namespaces" do
-      expect {
-          F4M.new('http://only.fools/and/horses/live.f4m',
-          IO.read('spec/fixtures/bad_namespace.f4m'))
-      }.to raise_error "Invalid manifest namespace. It was http://ns.adobe.com/f4m/2.0 but should have been http://ns.adobe.com/f4m/1.0"
+      url = 'http://only.fools/and/horses/live.f4m'
+      data = IO.read('spec/fixtures/bad_namespace.f4m')
+
+      expect { F4M.new(url, data) }.to raise_error "Invalid manifest namespace. It was http://ns.adobe.com/f4m/2.0 but should have been http://ns.adobe.com/f4m/1.0"
     end
   end
 end
