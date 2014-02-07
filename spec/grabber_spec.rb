@@ -22,7 +22,7 @@ describe "grabbing fragments" do
     @bs.stub(:segments).and_return(1)
     @bs.stub(:fragments).and_return(20)
 
-    grabber = Grabber.new(@f4m, @bs, @io)
+    grabber = Grabber.new(@f4m, @bs, @io, false)
 
     expect(grabber.urls.first).to eq('http://the.young.ones/some-audio-video-Seg1-Frag1')
     expect(grabber.urls.last).to eq('http://the.young.ones/some-audio-video-Seg1-Frag20')
