@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+# FLV file utility methods
+#
 module FLV
   def self.header(audio = 1, video = 1)
     # Audio and video need to be a 1 or 0

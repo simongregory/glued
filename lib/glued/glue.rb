@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+# Create glue with a manifest it recognises and it'll download the media
+# file to the local directory.
+#
 class Glue
   def initialize(url)
     fail "Invalid manifest url '#{url}' (it should end with .f4m)" unless url.to_s =~ /\.f4m$/ # Only by convention

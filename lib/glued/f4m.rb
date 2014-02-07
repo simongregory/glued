@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+# Deserialises the manifest
+#
 class F4M
   NAMESPACE = 'http://ns.adobe.com/f4m/1.0'
 

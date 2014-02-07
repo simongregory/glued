@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+# Unpacks the ascii byte stream commonly found in flash videos
+#
+# The O of the IO suffix is only ambition at the moment
+#
 class F4VIO < StringIO
   def byte
     read(1).unpack('C').first

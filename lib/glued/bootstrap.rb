@@ -1,5 +1,10 @@
 # encoding: utf-8
 
+# Bootstrap decoder.
+#
+# The boostrap files describe the segments and fragments that form
+# the media file.
+#
 class Bootstrap
   attr_reader :boxes
 

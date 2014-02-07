@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+# Decoded movie fragment metadata
+#
 class F4F
   attr_reader :boxes
 

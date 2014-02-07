@@ -3,6 +3,9 @@
 class Unstuck < Exception
 end
 
+# Grabs all the fragments that make up the media file and joins
+# them within a local file.
+#
 class Grabber
   attr_reader :urls
 
