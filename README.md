@@ -2,7 +2,9 @@
 
 [![Build Status][travis-badge]][travis]
 [![Code Climate][codeclimate-badge]][codeclimate]
+[![Coverage Status][coveralls-badge]][coveralls]
 [![Dependency Status][gemnasium-badge]][gemnasium]
+[![Gem Version][gem-version-badge]][gem-version]
 
 A Ruby client to download [HDS][hds] *recorded* fragments and glue them together. If it's live content you want then you need to start coding.  
 
@@ -83,3 +85,7 @@ Repeat till done
 [codeclimate]: https://codeclimate.com/github/simongregory/glued
 [travis-badge]: https://travis-ci.org/simongregory/glued.png?branch=master
 [travis]: https://travis-ci.org/simongregory/glued
+[coveralls-badge]: https://coveralls.io/repos/simongregory/glued/badge.png
+[coveralls]: https://coveralls.io/r/simongregory/glued
+[gem-version-badge]: https://badge.fury.io/rb/glued.png
+[gem-version]: http://badge.fury.io/rb/glued
