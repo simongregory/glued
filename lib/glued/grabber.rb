@@ -24,21 +24,24 @@ class Grabber
     @urls = []
     @downloaded_fragments = []
     @fragments_downloaded = 0
-
-    # TODO: Track how much has already been downloaded and append from that point
-    fail Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
-
     @out = io
-    @out = File.new(@uri, 'ab') if @out.nil?
 
-    # TODO: Test first fragment for audio and video write header accordingly
-    @out.write(FLV.header)
-
+    create_download_file
     build
     download_all if do_download
   end
 
   private
+
+  def create_download_file
+    # TODO: Track how much has already been downloaded and append from that point
+    fail Unstuck, "Aborting as the download target file '#{@uri}' already exists" if File.exist? @uri
+
+    @out = File.new(@uri, 'ab') if @out.nil?
+
+    # TODO: Test first fragment for audio and video write header accordingly
+    @out.write(FLV.header)
+  end
 
   def build
     # TODO, correctly set the fragment start
