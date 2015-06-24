@@ -6,7 +6,7 @@
 [![Dependency Status][gemnasium-badge]][gemnasium]
 [![Gem Version][gem-version-badge]][gem-version]
 
-A Ruby client to download [HDS][hds] *recorded* fragments and glue them together. If it's live content you want then you need to start coding.  
+A Ruby client to download [HDS][hds] *recorded* fragments and glue them together. Live content isn't supported. 
 
 The primary aim is to download video on demand content. Encrypted [DRM][] content will download, however it will not playback unless your player accomodates it and a license is available for the media.  
 
